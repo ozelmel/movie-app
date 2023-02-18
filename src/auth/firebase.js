@@ -1,8 +1,12 @@
-import { initializeApp} from "firebase/app";
+import {
+    initializeApp
+} from "firebase/app";
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    getAuth
+    getAuth,
+    onAuthStateChanged,
+    signOut
 } from "firebase/auth";
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -41,10 +45,27 @@ export const signIn = async (email, password, navigate) => {
     try {
         let userCredential = await signInWithEmailAndPassword(auth, email, password);
         navigate("/");
+        // sessionStorage.setItem("user", JSON.stringify(userCredential.user))
         console.log(userCredential);
 
     } catch (error) {
         console.log(error);
     }
 
+}
+//? kullanıcının signin olup olmadığını takip eden ve kullanıcı değiştiğinde yeni kullanıcıyı response olarak dönen firebase metodu..
+
+export const userObserver = (setCurrentUser) => {
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setCurrentUser(user)
+        } else {
+            setCurrentUser(false);
+
+        }
+    });
+}
+
+export const logOut = () => {
+    signOut(auth);
 }
