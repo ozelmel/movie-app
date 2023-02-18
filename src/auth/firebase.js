@@ -1,8 +1,7 @@
-import {
-    initializeApp
-} from "firebase/app";
+import { initializeApp} from "firebase/app";
 import {
     createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
     getAuth
 } from "firebase/auth";
 
@@ -37,3 +36,15 @@ export const createUser = async (email, password, navigate) => {
         console.log(error);
     }
 };
+//! Email-password ile girişi enable yap
+export const signIn = async (email, password, navigate) => {
+    try {
+        let userCredential = await signInWithEmailAndPassword(auth, email, password);
+        navigate("/");
+        console.log(userCredential);
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
