@@ -6,7 +6,10 @@ import {
     signInWithEmailAndPassword,
     getAuth,
     onAuthStateChanged,
-    signOut
+    signOut,
+    updateProfile,
+    signInWithPopup,
+    GoogleAuthProvider
 } from "firebase/auth";
 
 // TODO: Replace the following with your app's Firebase project configuration
@@ -30,9 +33,14 @@ const app = initializeApp(firebaseConfig);
 // Initialize Firebase Authentication and get a reference to the service
 const auth = getAuth(app);
 //? yeni bir kullanıcı oluşturmak için kullanılan firebase metodu
-export const createUser = async (email, password, navigate) => {
+export const createUser = async (email, password, navigate, displayName) => {
     try {
         let userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        //? kullanıcı profilini güncelleyen firebase metodu
+        await updateProfile(auth.currentUser, {
+            displayName: displayName,
+        })
+
         console.log(userCredential)
         navigate("/");
 
@@ -68,4 +76,22 @@ export const userObserver = (setCurrentUser) => {
 
 export const logOut = () => {
     signOut(auth);
+}
+//! google ile girişi enable yap
+//! projeyi deploy ettikten sonra google sign in çalışması için domain listesine deploy linkini ekle
+
+export const signUpProvider = (navigate) => {
+    //? google ile giriş yapılması için kullanılan firebase metodu
+    const provider = new GoogleAuthProvider();
+    //? açılır pencere ile giriş yapılması için kullanılan firebase metodu
+    signInWithPopup(auth, provider)
+        .then((result) => {
+            console.log(result)
+            navigate("/");
+
+        }).catch((error) => {
+            console.log(error)
+
+        });
+
 }
