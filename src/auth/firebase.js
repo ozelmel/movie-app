@@ -11,6 +11,7 @@ import {
     signInWithPopup,
     GoogleAuthProvider
 } from "firebase/auth";
+import { toastErrorNotify, toastSuccessNotify } from "../helpers/ToastNotify";
 
 // TODO: Replace the following with your app's Firebase project configuration
 // See: https://firebase.google.com/docs/web/learn-more#config-object
@@ -42,10 +43,11 @@ export const createUser = async (email, password, navigate, displayName) => {
         })
 
         console.log(userCredential)
+        toastSuccessNotify("Registered Succesfully!")
         navigate("/");
 
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        toastErrorNotify(err.message);
     }
 };
 //! Email-password ile girişi enable yap
@@ -53,11 +55,12 @@ export const signIn = async (email, password, navigate) => {
     try {
         let userCredential = await signInWithEmailAndPassword(auth, email, password);
         navigate("/");
+        toastSuccessNotify("Registered Succesfully!")
         // sessionStorage.setItem("user", JSON.stringify(userCredential.user))
         console.log(userCredential);
 
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        toastErrorNotify(err.message);
     }
 
 }
@@ -76,6 +79,8 @@ export const userObserver = (setCurrentUser) => {
 
 export const logOut = () => {
     signOut(auth);
+    toastSuccessNotify("Logged Out Succesfully!")
+    
 }
 //! google ile girişi enable yap
 //! projeyi deploy ettikten sonra google sign in çalışması için domain listesine deploy linkini ekle
@@ -88,9 +93,10 @@ export const signUpProvider = (navigate) => {
         .then((result) => {
             console.log(result)
             navigate("/");
+            toastSuccessNotify("Logged in Succesfully!")
 
-        }).catch((error) => {
-            console.log(error)
+        }).catch((err) => {
+            toastErrorNotify(err.message);
 
         });
 
