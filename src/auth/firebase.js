@@ -9,14 +9,15 @@ import {
     signOut,
     updateProfile,
     signInWithPopup,
-    GoogleAuthProvider
+    GoogleAuthProvider,
+    sendPasswordResetEmail
 } from "firebase/auth";
-import { toastErrorNotify, toastSuccessNotify } from "../helpers/ToastNotify";
+import { toastErrorNotify, toastSuccessNotify, toastWarnNotify } from "../helpers/ToastNotify";
 
 // TODO: Replace the following with your app's Firebase project configuration
-// See: https://firebase.google.com/docs/web/learn-more#config-object
-// console firebase - project settings
-// firebase console settings -- firebaseconfig
+//* https://firebase.google.com/docs/auth/web/start
+//* https://console.firebase.google.com/ => project settings
+//! firebase console settings bölümünden firebaseconfig ayarlarını al
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_apiKey,
     authDomain: process.env.REACT_APP_authDomain,
@@ -50,7 +51,9 @@ export const createUser = async (email, password, navigate, displayName) => {
         toastErrorNotify(err.message);
     }
 };
-//! Email-password ile girişi enable yap
+//* https://console.firebase.google.com/
+//* => Authentication => sign-in-method => enable Email/password
+//! Email/password ile girişi enable yap
 export const signIn = async (email, password, navigate) => {
     try {
         let userCredential = await signInWithEmailAndPassword(auth, email, password);
@@ -82,8 +85,9 @@ export const logOut = () => {
     toastSuccessNotify("Logged Out Succesfully!")
     
 }
-//! google ile girişi enable yap
-//! projeyi deploy ettikten sonra google sign in çalışması için domain listesine deploy linkini ekle
+//* https://console.firebase.google.com/
+//* => Authentication => sign-in-method => enable Google
+//! Google ile girişi enable yap
 
 export const signUpProvider = (navigate) => {
     //? google ile giriş yapılması için kullanılan firebase metodu
@@ -99,5 +103,21 @@ export const signUpProvider = (navigate) => {
             toastErrorNotify(err.message);
 
         });
+        
 
+}
+
+export const forgotPassword = (email) => {
+    //? Email yoluyla şifre sıfırlama için kullanılan firebase metodu
+    sendPasswordResetEmail(auth, email)
+        .then(() => {
+            // Password reset email sent!
+            toastWarnNotify("Please check your mail box!");
+            // alert("Please check your mail box!");
+        })
+        .catch((err) => {
+            toastErrorNotify(err.message);
+            // alert(err.message);
+            // ..
+        });
 }
