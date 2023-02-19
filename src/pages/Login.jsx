@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { forgotPassword, signIn, signUpProvider } from "../auth/firebase";
+import { ReactComponent as SVGIcon } from "../images/Icon.svg";
+
 
 const Login = () => {
   const [email, setEmail] = useState();
@@ -28,6 +30,7 @@ const Login = () => {
               Email
             </label>
             <input
+              autoFocus
               type="email"
               className="form-control"
               id="e-mail"
@@ -46,7 +49,9 @@ const Login = () => {
               required
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="link" onClick={() => forgotPassword(email)}>Forgot Password?</div>
+            <div className="link" onClick={() => forgotPassword(email)}>
+              Forgot Password?
+            </div>
             <input
               type="submit"
               className="btn btn-primary form-control"
@@ -54,8 +59,11 @@ const Login = () => {
             />
           </div>
         </form>
-        <button className="btn btn-primary form-control" onClick={handleProviderLogin}>
-          Continue with Google
+        <button
+          className="btn btn-primary form-control"
+          onClick={handleProviderLogin}
+        >
+          Continue with Google {<SVGIcon />}
         </button>
       </div>
     </div>

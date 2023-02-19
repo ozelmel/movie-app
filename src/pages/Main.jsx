@@ -35,10 +35,14 @@ const Main = () => {
       alert("Please enter a text...");
     }
   };
+
+  //? https://w3collective.com/react-autocomplete-search/ 
+  //* dynamic search - **form -- onchange and >0 ** and autocomplete search **MUI** ??
   return (
     <>
       <form className="search" onSubmit={handleSubmit}>
         <input
+          autoFocus
           type="search"
           className="search-input"
           placeholder="Search a movie..."

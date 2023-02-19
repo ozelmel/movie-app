@@ -1,6 +1,31 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../auth/firebase";
+/* import { Formik } from "formik";
+import * as Yup from "yup"; */
+
+/* const signUpValidationSchema = Yup.object({
+  username: Yup.string()
+    .required("Display name is required")
+    .min(2, "Too short")
+    .max(15, "Must be 15 char or less"),
+  email: Yup.string().email("Invalid Email").required("Email is required"),
+  password: Yup.string()
+    .required("No password provided")
+    .min(8, "Password is too short - should be 8 chars minimum")
+    .matches(/\d+/, "Password must have a number")
+    .matches(/[a-z]+/, "Password must have a lowercase")
+    .matches(/[A-Z]+/, "Password must have a uppercase")
+    .matches(/[!?.@#$%^&*()-+]+/, "Password must have a special char"),
+  password2: Yup.string()
+    .required("No password provided")
+    .min(8, "Password is too short - should be 8 chars minimum")
+    .oneOf([Yup.ref("password"), null], "Passwords must match"),
+}); */
+
+//* bootstrap 5 validation
+// https://getbootstrap.com/docs/5.0/forms/validation/
+
 
 const Register = () => {
   const [firstName, setFirstName] = useState();
@@ -28,6 +53,7 @@ const Register = () => {
               First Name
             </label>
             <input
+              autoFocus
               type="text"
               className="form-control"
               id="firstName"
